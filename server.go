@@ -7,6 +7,7 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/engine/standard"
+	"github.com/labstack/echo/middleware"
 )
 
 // Result は Member のスライスを返す
@@ -71,6 +72,10 @@ func shuffle(c echo.Context) error {
 func main() {
 	// Echo instance
 	e := echo.New()
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
 
 	// Route
 	e.GET("/", hello)
